@@ -9,19 +9,34 @@ This project automatically measures network latency and bandwidth between Azure 
 
 ## 🏗️ Architecture
 
-![Architecture High Level Diagram](images/archi-hld.png)  
-For each region, one server VM and one client VM are deployed on each physical zone.
-Client VMs initiate the tests to each server one by one and send results to the storage account table.
-To avoid concurrent tests, each client is provisioned with a delay of 60 seconds.
+* **Deployment Topology** :
+Virtual Machines (VMs) are deployed in each Azure region, with the following configuration:
+  * One server VM per physical Datacenter (Availability Zone).
+  * One client VM per physical Datacenter.
 
+![Architecture High Level Diagram](images/archi-hld.png)  
+
+* **Test Execution Workflow** : 
+Each client VM is responsible for initiating network tests targeting the server VMs across all zones.
+After each test, the results are collected and sent to a centralized Azure Storage Account, specifically to a Table Storage for structured logging and analysis.
+
+* **Test Orchestration and Timing** : 
+To prevent concurrent test execution across zones, a staggered provisioning strategy is implemented:
+  * Each client VM is provisioned with a delay of 60 seconds relative to the previous one.
+  * This ensures that tests are distributed over time, reducing the risk of contention and improving result reliability.
+
+* **Secure Data Storage and Access** :
+The Azure Storage Account used for storing test results is secured with the following mechanisms:
+  * Access is granted via a Managed Identity, eliminating the need for credentials and enhancing security.
+  * Communication with the storage account is routed through a Private Endpoint, ensuring that data traffic remains within the Azure backbone and is not exposed to the public internet.
+  
 ![Architecture Low Level Diagram](images/archi-lld.png)  
-Access to storage account is done using a managed identity and through a Private Endpoint.
 
 ### Test Infrastructure
 - **Test VMs**: Automatic deployment of Linux virtual machines across 3 availability zones
 - **Network Testing**: Uses `qperf` to measure TCP latency and bandwidth (`iperf3` is deployed but not used for the moment)
 - **Data Storage**: Azure Table Storage for results persistence
-- **Automation**: GitHub Actions for two hour test execution
+- **Automation**: GitHub Actions for test execution every 3 hours
 
 ### Visualization Dashboard
 - **Frontend**: Static web application with interactive visualizations
@@ -47,7 +62,7 @@ Access to storage account is done using a managed identity and through a Private
 The project covers 25+ Azure regions:
 
 ### Americas
-- East US, East US 2, Central US, South Central US
+- East US 2, Central US, South Central US
 - West US 2, West US 3, Canada Central
 - Brazil South, Chile Central, Mexico Central
 
@@ -62,7 +77,7 @@ The project covers 25+ Azure regions:
 - Central India, Indonesia Central, Malaysia West
 
 ### Middle East & Africa
-- UAE North, Qatar Central, Israel Central, South Africa North
+- UAE North, Israel Central, South Africa North
 
 ## 🚀 Quick Start
 
