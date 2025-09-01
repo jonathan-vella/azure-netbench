@@ -24,6 +24,8 @@ Azure uses a two-level zone system that is crucial to understand for accurate ne
 - Zone 1 in another subscription may map to Physical Datacenter B or C
 - This randomization ensures load balancing across Azure's physical infrastructure
 
+![Azure Availability Zones](images/azure-az.png)
+
 ### How This Project Handles Zone Mapping
 
 This project uses a pre-established mapping stored in `availabilityZoneMappings.json`:
