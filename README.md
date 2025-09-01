@@ -7,16 +7,16 @@ Current deployment: https://latency.azure.cloud63.fr/
 
 This project automatically measures network latency and bandwidth between Azure Availability Zones across 25+ global regions. It provides valuable insights into Azure's internal network performance to optimize multi-zone application deployments.
 
-### Azure Availability Zones: Physical vs Logical
+## 🏢 Azure Availability Zones: Physical vs Logical
 
-#### Understanding Azure Zone Architecture
+### Understanding Azure Zone Architecture
 
 Azure uses a two-level zone system that is crucial to understand for accurate network performance testing:
 
 - **Logical Zones**: These are the zones you see in Azure (Zone 1, Zone 2, Zone 3) which provide a consistent interface per Azure subscriptions
 - **Physical Zones**: These are the actual physical datacenters where your resources are deployed
 
-#### Subscription-Specific Physical Mapping
+### Subscription-Specific Physical Mapping
 
 **Important**: The mapping between logical zones and physical datacenters is **unique per subscription**. This means:
 
@@ -24,7 +24,7 @@ Azure uses a two-level zone system that is crucial to understand for accurate ne
 - Zone 1 in another subscription may map to Physical Datacenter B or C
 - This randomization ensures load balancing across Azure's physical infrastructure
 
-#### How This Project Handles Zone Mapping
+### How This Project Handles Zone Mapping
 
 This project uses a pre-established mapping stored in `availabilityZoneMappings.json`:
 1. **Uses** the physical availability zone mapping from the JSON configuration file
@@ -33,7 +33,7 @@ This project uses a pre-established mapping stored in `availabilityZoneMappings.
 
 > **Manual Mapping Management**: To update or discover zone mappings for new regions, use the `get-locations.sh` script which queries Azure APIs to determine the physical zone assignments for your subscription.
 
-#### Why Physical Zones Matter for Testing
+### Why Physical Zones Matter for Testing
 
 The network performance tests in this project measure latency and bandwidth **between physical datacenters**, not logical zones. This approach provides:
 - **Real-world performance data** reflecting actual geographic distances
