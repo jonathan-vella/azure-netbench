@@ -73,7 +73,7 @@ The Azure Storage Account used for storing test results is secured with the foll
 - **Test VMs**: Automatic deployment of Linux virtual machines across 3 availability zones
 - **Network Testing**: Uses `qperf` to measure TCP latency and bandwidth (`iperf3` is deployed but not used for the moment)
 - **Data Storage**: Azure Table Storage for results persistence
-- **Automation**: GitHub Actions for test execution every 4 hours
+- **Automation**: GitHub Actions for test execution every 6 hours
 
 ### Visualization Dashboard
 - **Frontend**: Static web application with interactive visualizations
@@ -240,7 +240,7 @@ benchmark = {
 ```yaml
 # In .github/workflows/all-regions.yml
 schedule:
-  - cron: '0 */4 * * *'  # Every 4 hours
+  - cron: '0 */6 * * *'  # Every 6 hours
 ```
 
 ### Monitoring and Logs
